@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Assignments</h1>
+        <div class="assignments">
+            <form id="bucketForm" method="POST" action="/fetch_assignments">
+                <input type="hidden" name="course_ids" value="{{ request.form['course_ids'] }}">
+                <input type="hidden" name="access_token" value="{{ request.form['access_token'] }}">
+                <input type="hidden" name="groq_api_key" value="{{ request.form['groq_api_key'] }}">
+                <div class="checkbox-group">
+                    <label class="checkbox-container">Upcoming
+                        <input type="checkbox" name="buckets" value="upcoming" {% if 'upcoming' in buckets %}checked{% endif %}>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkbox-container">Overdue
+                        <input type="checkbox" name="buckets" value="overdue" {% if 'overdue' in buckets %}checked{% endif %}>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkbox-container">Past
+                        <input type="checkbox" name="buckets" value="past" {% if 'past' in buckets %}checked{% endif %}>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkbox-container">Undated
+                        <input type="checkbox" name="buckets" value="undated" {% if 'undated' in buckets %}checked{% endif %}>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkbox-container">Ungraded
+                        <input type="checkbox" name="buckets" value="ungraded" {% if 'ungraded' in buckets %}checked{% endif %}>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkbox-container">Unsubmitted
+                        <input type="checkbox" name="buckets" value="unsubmitted" {% if 'unsubmitted' in buckets %}checked{% endif %}>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkbox-container">Future
+                        <input type="checkbox" name="buckets" value="future" {% if 'future' in buckets %}checked{% endif %}>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <button type="submit">Apply</button>
+            </form>
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Points</th>
+                    <th>Due Date</th>
+                </tr>
+                {% for i, assignment in enumerate(assignments, 1) %}
+                <tr>
+                    <td>{{ i }}</td>
+                    <td><a href="{{ url_for('assignment_detail', assignment_id=assignment.id, course_ids=request.form['course_ids'], access_token=request.form['access_token'], groq_api_key=request.form['groq_api_key'], buckets=','.join(request.form.getlist('buckets'))) }}">{{ assignment.name }}</a></td>
+                    <td>{{ assignment.points_possible }}</td>
+                    <td>{{ assignment.due_at }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+</html>

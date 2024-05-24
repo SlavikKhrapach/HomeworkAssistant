@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Fetcher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Fetch Assignments</h1>
+        <form action="/fetch_assignments" method="POST">
+            <input type="hidden" name="buckets" value="upcoming">
+            <label for="course_ids">Course IDs (comma separated):</label><br>
+            <input type="text" id="course_ids" name="course_ids" required><br><br>
+            <label for="access_token">Access Token:</label><br>
+            <input type="text" id="access_token" name="access_token" required><br><br>
+            <label for="groq_api_key">Groq API Key:</label><br>
+            <input type="text" id="groq_api_key" name="groq_api_key" required><br><br>
+            <input type="submit" value="Fetch Assignments">
+        </form>
+    </div>
+</body>
+</html>

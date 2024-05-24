@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Detail</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Assignment Detail</h1>
+        <div class="assignment-details">
+            <h2>{{ assignment.name }}</h2>
+            <p><strong>Due Date:</strong> {{ assignment.due_at }}</p>
+            <p><strong>Points:</strong> {{ assignment.points_possible }}</p>
+            <hr>
+            <p>{{ summary | safe }}</p>
+            <hr>
+            <p>For detailed instructions, refer to the <a href="{{ assignment.html_url }}" target="_blank">original assignment</a>.</p>
+        </div>
+        <nav class="navigation">
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="#" onclick="fetchAssignments()">Assignments</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/settings">Settings</a></li>
+            </ul>
+        </nav>
+    </div>
+    <form id="fetchAssignmentsForm" style="display: none;">
+        <input type="hidden" name="course_ids" value="{{ course_ids }}">
+        <input type="hidden" name="access_token" value="{{ access_token }}">
+        <input type="hidden" name="groq_api_key" value="{{ groq_api_key }}">
+        <input type="hidden" name="buckets" value="{{ buckets }}">
+    </form>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
