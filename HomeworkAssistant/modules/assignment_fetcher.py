@@ -1,9 +1,13 @@
-# assignment_fetcher.py
+from flask import session
 import requests
 from datetime import datetime
 import pytz
 
-def fetch_relevant_assignments(course_ids, access_token, buckets):
+def fetch_relevant_assignments():
+    course_ids = session['course_ids']
+    access_token = session['access_token']
+    buckets = session['buckets']
+
     headers = {'Authorization': f'Bearer {access_token}'}
     assignments = []
     pacific_tz = pytz.timezone('US/Pacific')

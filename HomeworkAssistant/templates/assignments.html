@@ -56,7 +56,7 @@
                 {% for i, assignment in enumerate(assignments, 1) %}
                 <tr>
                     <td>{{ i }}</td>
-                    <td><a href="{{ url_for('assignment_detail', assignment_id=assignment.id, course_ids=request.form['course_ids'], access_token=request.form['access_token'], groq_api_key=request.form['groq_api_key'], buckets=','.join(request.form.getlist('buckets'))) }}">{{ assignment.name }}</a></td>
+                    <td><a href="{{ url_for('assignment_detail', assignment_id=assignment.id) }}">{{ assignment.name }}</a></td>
                     <td>{{ assignment.points_possible }}</td>
                     <td>{{ assignment.due_at }}</td>
                 </tr>
