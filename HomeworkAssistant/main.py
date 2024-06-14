@@ -9,28 +9,24 @@ app.secret_key = '0897TG789T*()&t7fOG*Y()_t'
 def index():
     return render_template('index.html')
 
-@app.route('/fetch_assignments', methods=['POST'])
-def fetch_assignments():
-    if not session['course_ids']:
-        course_ids = request.form['course_ids']
-    else:
-        course_ids = session['course_ids']
+@app.route('/assignments', methods=['POST'])
+def assignments():
+    course_ids = request.form.get('course_ids')
+    access_token = request.form.get('access_token')
+    groq_api_key = request.form.get('groq_api_key')
+    buckets = request.form.getlist('buckets')
 
-    if not session['access_token']:
-        access_token = request.form['access_token']
-    else:
-        access_token = session['access_token']
-
-    if not session['groq_api_key']:
-        groq_api_key = request.form['groq_api_key']
-    else:
-        groq_api_key = session['groq_api_key']
-
+    if not course_ids:
+        course_ids = session.get('course_ids')
+    if not access_token:
+        access_token = session.get('access_token')
+    if not groq_api_key:
+        groq_api_key = session.get('groq_api_key')
+    if not buckets:
+        buckets = session.get('buckets', ['upcoming'])
 
     buckets = request.form.getlist('buckets')  # Get the list of selected buckets
 
-
-    # If buckets list is empty, add "upcoming" to it
     if not buckets:
         buckets.append('upcoming')
 
@@ -40,8 +36,8 @@ def fetch_assignments():
     session['buckets'] = buckets
 
     assignments = fetch_relevant_assignments()
-    return render_template('assignments.html', assignments=assignments, groq_api_key=groq_api_key, enumerate=enumerate, buckets=buckets)
 
+    return render_template('assignments.html', assignments=assignments, groq_api_key=groq_api_key, enumerate=enumerate, buckets=buckets)
 
 @app.route('/assignment/<int:assignment_id>', methods=['GET'])
 def assignment_detail(assignment_id):
@@ -62,7 +58,6 @@ def assignment_detail(assignment_id):
                                    access_token=access_token, groq_api_key=groq_api_key, buckets=','.join(buckets))
     else:
         return "Assignment not found", 404
-
 
 if __name__ == '__main__':
     app.run(debug=True)

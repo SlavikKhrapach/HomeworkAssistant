@@ -1,7 +1,8 @@
+from datetime import datetime
 from flask import session
 import requests
-from datetime import datetime
 import pytz
+
 
 def fetch_relevant_assignments():
     course_ids = session['course_ids']

@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('fetchAssignmentsForm');
         const formData = new FormData(form);
 
-        fetch('/fetch_assignments', {
+        fetch('/assignments', {
             method: 'POST',
             body: formData
         })

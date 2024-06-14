@@ -9,8 +9,8 @@
 <body>
     <div class="container">
         <h1>Assignments</h1>
-        <div class="assignments">
-            <form id="bucketForm" method="POST" action="/fetch_assignments">
+        <div class="assignments content">
+            <form id="bucketForm" method="POST" action="/assignments">
                 <input type="hidden" name="course_ids" value="{{ request.form['course_ids'] }}">
                 <input type="hidden" name="access_token" value="{{ request.form['access_token'] }}">
                 <input type="hidden" name="groq_api_key" value="{{ request.form['groq_api_key'] }}">
@@ -46,7 +46,7 @@
                 </div>
                 <button type="submit">Apply</button>
             </form>
-            <table>
+            <table id="assignments-table">
                 <tr>
                     <th>#</th>
                     <th>Title</th>
@@ -54,7 +54,7 @@
                     <th>Due Date</th>
                 </tr>
                 {% for i, assignment in enumerate(assignments, 1) %}
-                <tr>
+                <tr id="assignments-table-body">
                     <td>{{ i }}</td>
                     <td><a href="{{ url_for('assignment_detail', assignment_id=assignment.id) }}">{{ assignment.name }}</a></td>
                     <td>{{ assignment.points_possible }}</td>
